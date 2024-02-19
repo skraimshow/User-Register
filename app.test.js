@@ -23,13 +23,13 @@ describe('given correct username and password', () => {
     })
 
     // test response content type?
-    // test('returns response content type', async () => {
-    //     const response = await request(app).post('/users').send({
-    //         username: 'Username',
-    //         password: 'Password123'
-    //     })
-    //     expect(response.body.)
-    // })
+    test('returns response content type', async () => {
+        const response = await request(app).post('/users').send({
+            username: 'Username',
+            password: 'Password123'
+        })
+        expect(response.body.userId).toBe("1");
+    })
     // test response message
     test('returns response message', async () => {
         const response = await request(app).post('/users').send({
@@ -45,6 +45,13 @@ describe('given correct username and password', () => {
             password: 'Password123'
         })
         expect(response.body.userId).toBeDefined();
+    })
+    test('returns response message', async () => {
+        const response = await request(app).post('/users').send({
+            username: 'Username',
+            password: 'Password123'
+        })
+        expect(response.body.message).toBe('Valid User');
     })
     // ...
   
@@ -62,10 +69,10 @@ describe('given incorrect or missing username and password', () => {
     // test response message
     test('returns response message', async () => {
         const response = await request(app).post('/users').send({
-            username: 'Username',
-            password: 'Password123'
+            username: 'sername',
+            password: 'assword123'
         })
-        expect(response.body.message).toBeDefined();
+        expect(response.body.message).toBeUndefined();
     })
     // test that response does NOT have userId 
     test('returns response does not have userId', async () => {
@@ -84,5 +91,12 @@ describe('given incorrect or missing username and password', () => {
         expect(response.body.error).toBeDefined();
     })
     // test missing username or password
+    test('returns response missing username or password', async () => {
+        const response = await request(app).post('/users').send({
+            username: '',
+            password: ''
+        })
+        expect(response.body.error).toBe('Invalid User');
+    })
     // ...
 })
